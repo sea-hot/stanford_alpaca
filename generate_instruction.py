@@ -1,4 +1,4 @@
-"""
+"""def post
 batch_selfinstruct_generate.py
 
 run:
@@ -39,9 +39,10 @@ def encode_prompt(prompt_instructions):
     prompt += f"###\n"
     prompt += f"{idx + 2}. Instruction:"
     return prompt
-
+# encode_prompt 함수는 지시사항(prompt_instructions)을 인코딩하고 처리하는 함수
 
 def post_process_gpt3_response(num_prompt_instructions, response):
+    # instruction fo
     if response is None:
         return []
     raw_instructions = f"{num_prompt_instructions+1}. Instruction:" + response["text"]
@@ -101,11 +102,11 @@ def post_process_gpt3_response(num_prompt_instructions, response):
             continue
         instructions.append({"instruction": inst, "input": input, "output": output})
     return instructions
-
+# gpt3 response를 후처리하는 부분
 
 def find_word_in_string(w, s):
     return re.compile(r"\b({0})\b".format(w), flags=re.IGNORECASE).search(s)
-
+# 전처리하는 함수
 
 def generate_instruction_following_data(
     output_dir="./",
@@ -118,7 +119,7 @@ def generate_instruction_following_data(
     top_p=1.0,
     num_cpus=16,
 ):
-    seed_tasks = [json.loads(l) for l in open(seed_tasks_path, "r")]
+    seed_tasks = [json.loads(l) for l in open(seed_tasks_path, "r")] 
     seed_instruction_data = [
         {"instruction": t["instruction"], "input": t["instances"][0]["input"], "output": t["instances"][0]["output"]}
         for t in seed_tasks
@@ -207,11 +208,12 @@ def generate_instruction_following_data(
         print(f"Request {request_idx} took {request_duration:.2f}s, processing took {process_duration:.2f}s")
         print(f"Generated {total} instructions, kept {keep} instructions")
         utils.jdump(machine_instruction_data, os.path.join(output_dir, "regen.json"))
-
+# 함수는 주어진 데이터 뒤에 따라오는 지시를 생성하는 함수
 
 def main(task, **kwargs):
     globals()[task](**kwargs)
-
+# 특정 작업에 필요한 다양한 추가 인수(kwargs)를 받아서 해당 작업을 수행하고 결과를 반환
 
 if __name__ == "__main__":
     fire.Fire(main)
+# 내부 코드를 실행하기 위해 사용
